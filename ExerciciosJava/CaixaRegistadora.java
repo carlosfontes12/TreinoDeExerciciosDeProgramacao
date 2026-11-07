@@ -11,12 +11,12 @@ public class CaixaRegistadora {
         // declaração de variáveis
         double preçoArtigo;
         int contadorProdutos = 0;
-        double TotalCompras = 0;
-        double MediaCompras = 0;
-        double Desconto = 0;
-        double TotalComDesconto = 0;
+        double totalCompras = 0;
+        double mediaCompras = 0;
+        double desconto = 0;
+        double totalComDesconto = 0;
         int contadorArtigosAcimaDeCinco = 0;
-        double MaisCaro = 0;
+        double maisCaro = 0;
 
         do {
 
@@ -24,8 +24,8 @@ public class CaixaRegistadora {
             System.out.print("Digite o preço do artigo (-1 para terminar): ");
             preçoArtigo = input.nextDouble();
 
-            if (preçoArtigo < -1 || preçoArtigo == 0) {
-                System.out.println("Preço Inválido");
+            if (preçoArtigo <= 0 && preçoArtigo != -1) {
+                System.out.println("Preço inválido. Digite um valor positivo.");
                 continue;
             }
 
@@ -36,21 +36,23 @@ public class CaixaRegistadora {
             // incrementar o contador de produtos válidos
             contadorProdutos++;
             // atualizar o total de compras e a média
-            TotalCompras += preçoArtigo;
-            MediaCompras = TotalCompras / contadorProdutos;
+            totalCompras += preçoArtigo;
+            mediaCompras = totalCompras / contadorProdutos;
 
             // aplicar desconto se o total de compras for maior ou igual a 50
-            if (TotalCompras >= 50) {
-                Desconto = TotalCompras * 0.1;
-                TotalComDesconto = TotalCompras - Desconto;
-
+            if (totalCompras >= 50) {
+                desconto = totalCompras * 0.1;
+                totalComDesconto = totalCompras - desconto;
+            } else {
+                totalComDesconto = totalCompras;
             }
+
             // contar artigos com preço acima de 5
-            if (preçoArtigo >= 5) {
+            if (preçoArtigo > 5) {
                 contadorArtigosAcimaDeCinco++;
             }
-            if (preçoArtigo > MaisCaro) {
-                MaisCaro = preçoArtigo;
+            if (preçoArtigo > maisCaro) {
+                maisCaro = preçoArtigo;
             }
 
         } while (preçoArtigo != -1);
@@ -58,11 +60,11 @@ public class CaixaRegistadora {
         //Apresentação dos resultados
         System.out.println("---Talão---");
         System.out.println("Artigos Registados " + contadorProdutos);
-        System.out.println("Total: " + TotalCompras);
-        System.out.println("Preço Médio: " + MediaCompras);
-        System.out.println("Desconto de 10% aplicado: " + Desconto);
-        System.out.println("Total a pagar " + TotalComDesconto);
+        System.out.println("Total: " + totalCompras);
+        System.out.println("Preço Médio: " + mediaCompras);
+        System.out.println("Desconto de 10% aplicado: " + desconto);
+        System.out.println("Total a pagar " + totalComDesconto);
         System.out.println("Artigos com preço acima de 5€: " + contadorArtigosAcimaDeCinco);
-        System.out.println("Artigo mais caro: " + MaisCaro);
+        System.out.println("Artigo mais caro: " + maisCaro);
     }
 }
