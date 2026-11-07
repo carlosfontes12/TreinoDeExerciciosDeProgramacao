@@ -45,6 +45,7 @@ public class CaixaRegistadora {
                 totalComDesconto = totalCompras - desconto;
             } else {
                 totalComDesconto = totalCompras;
+            
             }
 
             // contar artigos com preço acima de 5
