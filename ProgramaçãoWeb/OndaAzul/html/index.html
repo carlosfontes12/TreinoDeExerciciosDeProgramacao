@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<!-- O DOCTYPE tem de ser SEMPRE a primeira linha: diz ao browser que esta página é HTML5 -->
+
+<!-- ===================================================================== -->
+<!-- ESCOLA DE SURF ONDA AZUL — PÁGINA DE INSCRIÇÃO                        -->
+<!--                                                                       -->
+<!-- ESTRUTURA DO PROJETO:                                                 -->
+<!--   OndaAzul/                                                           -->
+<!--   ├── html/index.html   ← ESTE ficheiro (a estrutura e o conteúdo)    -->
+<!--   ├── css/estilo.css    ← os nossos estilos (cores, fonte, :hover…)   -->
+<!--   └── img/favicon.svg   ← o ícone que aparece no separador do browser -->
+<!--                                                                       -->
+<!-- MAPA DA PÁGINA (de cima para baixo):                                  -->
+<!--   1. <head>     → ligações: favicon, Bootstrap, ícones, fonte, CSS    -->
+<!--   2. <header>   → nome da escola (h1) + slogan com <mark>             -->
+<!--   3. <nav>      → 3 links internos (#pacotes, #inscricao, #contactos) -->
+<!--   4. <main>                                                           -->
+<!--      4.1 <section id="pacotes">   → 3 pacotes em grelha Bootstrap     -->
+<!--      4.2 <section id="inscricao"> → formulário com 2 fieldset         -->
+<!--      4.3 <aside>                  → "Ainda tens dúvidas?" + botão     -->
+<!--   5. <footer id="contactos"> → morada, email e ícones                 -->
+<!--   6. MODAL "Pedir informações" → escondido até carregar no botão      -->
+<!--   7. <script> do Bootstrap → faz o modal funcionar                    -->
+<!--                                                                       -->
+<!-- Os comentários "✅ REQUISITO" mostram onde cada ponto do enunciado    -->
+<!-- foi cumprido. Procura-os com Cmd + F.                                 -->
+<!-- ===================================================================== -->
+
+<!-- lang="pt" = a página está em português (ajuda os leitores de ecrã e os motores de busca) -->
+<html lang="pt">
+
+<!-- ===================================================================== -->
+<!-- 1. HEAD: informação SOBRE a página (não aparece no ecrã)              -->
+<!-- ===================================================================== -->
+
+<head>
+    <!-- charset UTF-8 = permite acentos e caracteres como ç, ã, € -->
+    <meta charset="UTF-8">
+
+    <!-- viewport = a página adapta-se à largura do telemóvel (sem isto o Bootstrap não fica responsivo) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Texto que aparece no separador do browser -->
+    <title>Onda Azul — Escola de Surf na Ericeira</title>
+
+    <!-- ✅ REQUISITO: favicon -->
+    <!-- rel="icon" = este ficheiro é o ícone do separador -->
+    <!-- ../ = "sobe uma pasta": sai de html/, volta a OndaAzul/ e entra em img/ -->
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+
+    <!-- ✅ REQUISITO: Bootstrap 5.3 por CDN (parte 1 de 2: o CSS) -->
+    <!-- CDN = o ficheiro vem da internet, não está no nosso computador -->
+    <!-- integrity + crossorigin = segurança: o browser confirma que o ficheiro não foi alterado -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- ✅ REQUISITO: Bootstrap Icons (ícones usados no rodapé e nos botões) -->
+    <!-- Para usar um ícone: <i class="bi bi-nome-do-icone"></i> -->
+    <!-- Lista de nomes: https://icons.getbootstrap.com -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- ✅ REQUISITO: fonte do Google Fonts (Montserrat) -->
+    <!-- As 2 linhas "preconnect" ligam-se mais cedo aos servidores da Google → a fonte carrega mais depressa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- wght@600;700 = só carregamos as espessuras semi-negrito e negrito (as que usamos nos títulos) -->
+    <!-- A fonte só é APLICADA no estilo.css (regra h1, h2, ...) — aqui apenas é descarregada -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- ✅ REQUISITO: CSS externo (o nosso ficheiro) -->
+    <!-- Fica em ÚLTIMO: quando duas regras se contradizem, ganha a que vem depois → assim conseguimos alterar o Bootstrap -->
+    <link rel="stylesheet" href="../css/estilo.css">
+</head>
+
+<body>
+
+    <!-- ===================================================================== -->
+    <!-- 2. HEADER: cabeçalho da página                                        -->
+    <!-- ✅ REQUISITO: estrutura semântica (header)                             -->
+    <!-- ===================================================================== -->
+    <!-- Classes do Bootstrap: -->
+    <!--   text-center = centra o texto -->
+    <!--   py-5        = padding (espaço interior) grande em cima e em baixo -->
+    <!-- A cor de fundo azul-escura vem do estilo.css (regra "header") -->
+    <header class="text-center py-5">
+
+        <!-- ✅ REQUISITO: nome da escola num h1 (o título mais importante da página — só deve haver UM h1) -->
+        <h1>Onda Azul</h1>
+
+        <!-- ✅ REQUISITO: slogan num <p> com pelo menos uma palavra em <mark> -->
+        <!-- lead = texto um pouco maior (classe do Bootstrap) | mb-0 = sem margem em baixo -->
+        <!-- <mark> = destaca o texto, como um marcador. A cor "areia" está no estilo.css (regra "header mark") -->
+        <p class="lead mb-0">Aprende a surfar as <mark>melhores ondas</mark> da Ericeira, mesmo no inverno.</p>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- 3. NAV: menu de navegação                                             -->
+    <!-- ✅ REQUISITO: nav com 3 links internos                                 -->
+    <!-- ===================================================================== -->
+    <!-- py-2 = pequeno espaço em cima e em baixo | a cor de fundo vem do estilo.css (regra "nav") -->
+    <!-- 📱 RESPONSIVO: sticky-top = o menu "cola" no topo do ecrã ao fazer scroll. -->
+    <!--    No telemóvel a página é muito comprida, assim o menu está sempre à mão. -->
+    <nav class="py-2 sticky-top">
+
+        <!-- container              = centra o conteúdo e dá margens laterais -->
+        <!-- d-flex                 = põe os links LADO A LADO (Flexbox) -->
+        <!-- justify-content-center = centra os links na horizontal -->
+        <!-- gap-3                  = espaço entre os links -->
+        <!-- 📱 RESPONSIVO: flex-wrap = se os links não couberem numa linha (ecrãs muito estreitos), passam para a linha de baixo -->
+        <div class="container d-flex flex-wrap justify-content-center gap-3">
+
+            <!-- Link INTERNO: href="#algo" salta para o elemento com id="algo" NESTA página -->
+            <!-- O estilo destes links (cor, :hover) está no estilo.css (regras "nav a" e "nav a:hover") -->
+            <a href="#pacotes">Pacotes</a> <!-- salta para <section id="pacotes"> -->
+            <a href="#inscricao">Inscrição</a> <!-- salta para <section id="inscricao"> -->
+            <a href="#contactos">Contactos</a> <!-- salta para <footer id="contactos"> -->
+        </div>
+    </nav>
+
+    <!-- ===================================================================== -->
+    <!-- 4. MAIN: conteúdo principal da página                                 -->
+    <!-- ✅ REQUISITO: main com pelo menos 2 section e 1 aside                  -->
+    <!-- ===================================================================== -->
+    <!-- container = conteúdo centrado com margens | py-5 = espaço em cima e em baixo -->
+    <main class="container py-5">
+
+        <!-- ================================================================= -->
+        <!-- 4.1 SECÇÃO PACOTES                                                -->
+        <!-- ✅ REQUISITO: section com id="pacotes" (destino do link do menu)   -->
+        <!-- ================================================================= -->
+        <!-- mb-5 = margem grande em baixo, para separar da secção seguinte -->
+        <section id="pacotes" class="mb-5">
+
+            <!-- h2 = título de secção (abaixo do h1 na hierarquia) | mb-4 = margem em baixo -->
+            <h2 class="text-center mb-4">Pacotes de inverno</h2>
+
+            <!-- ✅ REQUISITO: grid do Bootstrap container → row → col-12 col-md-4 -->
+            <!-- O "container" é o próprio <main> (lá em cima). Aqui temos a "row". -->
+            <!-- row = linha da grelha (as colunas lá dentro ficam lado a lado) -->
+            <!-- g-4 = espaço (gutter) entre as colunas -->
+            <div class="row g-4">
+
+                <!-- ---------- PACOTE 1: INICIAÇÃO ---------- -->
+                <!-- A grelha tem 12 partes: -->
+                <!--   col-12   = no telemóvel ocupa as 12 partes → 1 pacote por linha -->
+                <!--   col-md-4 = a partir de ecrãs médios ocupa 4 partes → 3 pacotes por linha (4+4+4 = 12) -->
+                <div class="col-12 col-md-4">
+
+                    <!-- <article> = conteúdo independente (cada pacote faz sentido sozinho) -->
+                    <!-- card      = caixa com borda e cantos arredondados (componente do Bootstrap) -->
+                    <!-- h-100     = altura 100% → os 3 cartões ficam com a MESMA altura -->
+                    <!-- shadow-sm = sombra pequena -->
+                    <article class="card h-100 shadow-sm">
+
+                        <!-- card-body = espaço interior do cartão -->
+                        <div class="card-body">
+
+                            <!-- ✅ REQUISITO: título do pacote -->
+                            <!-- h3 porque está dentro de uma secção com h2 | fs-4 = tamanho de letra -->
+                            <h3 class="card-title fs-4">Iniciação</h3>
+
+                            <!-- ✅ REQUISITO: lista ul com 3 itens -->
+                            <!-- ul = lista com pontos (não numerada) | li = cada item -->
+                            <ul>
+                                <li>4 aulas de 2 horas</li>
+                                <li>Prancha de espuma incluída</li>
+                                <li>Grupos até 6 alunos</li>
+                            </ul>
+
+                            <!-- ✅ REQUISITO: preço -->
+                            <!-- class="preco" = classe NOSSA (não é do Bootstrap): o estilo está no estilo.css (regra "#pacotes .preco") -->
+                            <p class="preco mb-0">80 €</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- ---------- PACOTE 2: INTERMÉDIO (mesma estrutura do pacote 1) ---------- -->
+                <div class="col-12 col-md-4">
+                    <article class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="card-title fs-4">Intermédio</h3>
+                            <ul>
+                                <li>6 aulas de 2 horas</li>
+                                <li>Treino de manobras básicas</li>
+                                <li>Análise de vídeo</li>
+                            </ul>
+                            <p class="preco mb-0">130 €</p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- ---------- PACOTE 3: AVANÇADO (mesma estrutura do pacote 1) ---------- -->
+                <div class="col-12 col-md-4">
+                    <article class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 class="card-title fs-4">Avançado</h3>
+                            <ul>
+                                <li>8 sessões de surf guiado</li>
+                                <li>Spots escolhidos pelo treinador</li>
+                                <li>Plano de treino individual</li>
+                            </ul>
+                            <p class="preco mb-0">190 €</p>
+                        </div>
+                    </article>
+                </div>
+
+            </div> <!-- fim da row -->
+        </section> <!-- fim da secção PACOTES -->
+
+        <!-- ================================================================= -->
+        <!-- 📱 RESPONSIVO: FORMULÁRIO + ASIDE NUMA GRELHA                     -->
+        <!-- ================================================================= -->
+        <!-- Telemóvel e tablet (col-12): o formulário ocupa a largura toda e o aside fica POR BAIXO -->
+        <!-- Computador (col-lg-8 + col-lg-4): formulário à esquerda (8 de 12) e aside à DIREITA (4 de 12) -->
+        <!-- Assim, num ecrã largo, o espaço ao lado do formulário não fica vazio -->
+        <div class="row g-4">
+
+        <!-- ================================================================= -->
+        <!-- 4.2 SECÇÃO INSCRIÇÃO (FORMULÁRIO PRINCIPAL)                       -->
+        <!-- ✅ REQUISITO: section com id="inscricao" (SEM acentos no id!)      -->
+        <!-- ================================================================= -->
+        <!-- 📱 RESPONSIVO: col-12 col-lg-8 = largura toda até ao tablet, 8 de 12 partes no computador -->
+        <section id="inscricao" class="col-12 col-lg-8">
+            <h2 class="text-center mb-4">Inscrição</h2>
+
+            <!-- ✅ REQUISITO: form -->
+            <!-- action="#"   = para onde os dados seriam enviados. "#" = lado nenhum (é só um exercício) -->
+            <!-- method="post" = os dados vão "escondidos" no pedido, e não no endereço da página -->
+            <!-- enctype="multipart/form-data" = OBRIGATÓRIO quando o formulário tem um campo de ficheiro (type="file") -->
+            <form action="#" method="post" enctype="multipart/form-data">
+
+                <!-- ============================================================= -->
+                <!-- FIELDSET 1: DADOS PESSOAIS                                    -->
+                <!-- ✅ REQUISITO: fieldset com o seu legend                        -->
+                <!-- ============================================================= -->
+                <!-- fieldset = agrupa campos relacionados -->
+                <!-- A cor de fundo, os cantos e o padding vêm do estilo.css (regra "fieldset") -->
+                <fieldset>
+
+                    <!-- legend = título do grupo -->
+                    <!-- Aparece em MAIÚSCULAS por causa do estilo.css (regra "#inscricao legend") -->
+                    <legend>Dados pessoais</legend>
+
+                    <!-- row g-3 = grelha para pôr 2 campos lado a lado em ecrãs médios -->
+                    <div class="row g-3">
+
+                        <!-- ---------- NOME ---------- -->
+                        <!-- col-12 col-md-6 = largura toda no telemóvel, metade (6 de 12) em ecrãs médios -->
+                        <div class="col-12 col-md-6">
+
+                            <!-- ✅ REQUISITO: label associado com for + id -->
+                            <!-- for="nome" tem de ser IGUAL ao id="nome" do input → clicar no texto põe o cursor no campo -->
+                            <!-- form-label = estilo do Bootstrap para rótulos de formulário -->
+                            <label for="nome" class="form-label">Nome *</label>
+
+                            <!-- type="text"   = texto livre -->
+                            <!-- id="nome"     = liga ao label (for="nome") -->
+                            <!-- name="nome"   = nome com que o dado é ENVIADO (o servidor recebe nome=Joana) -->
+                            <!-- form-control  = estilo do Bootstrap para caixas de texto -->
+                            <!-- placeholder   = texto de exemplo, cinzento, que desaparece ao escrever -->
+                            <!-- ✅ REQUISITO: required = campo obrigatório (o browser não deixa enviar vazio) -->
+                            <input type="text" id="nome" name="nome" class="form-control" placeholder="Ex.: Joana Silva"
+                                required>
+                        </div>
+
+                        <!-- ---------- EMAIL ---------- -->
+                        <div class="col-12 col-md-6">
+                            <label for="email" class="form-label">Email *</label>
+                            <!-- type="email" = o browser verifica se tem formato de email (tem de ter @) -->
+                            <!-- ✅ REQUISITO: required -->
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="nome@exemplo.pt" required>
+                        </div>
+
+                        <!-- ---------- TELEMÓVEL ---------- -->
+                        <div class="col-12 col-md-6">
+                            <label for="telemovel" class="form-label">Telemóvel</label>
+                            <!-- type="tel" = no telemóvel abre o teclado numérico -->
+                            <input type="tel" id="telemovel" name="telemovel" class="form-control"
+                                placeholder="912 345 678">
+                        </div>
+
+                        <!-- ---------- DATA DE NASCIMENTO ---------- -->
+                        <div class="col-12 col-md-6">
+                            <label for="dataNascimento" class="form-label">Data de nascimento</label>
+                            <!-- type="date" = o browser mostra um calendário -->
+                            <!-- Não tem placeholder: o próprio browser já mostra dd/mm/aaaa -->
+                            <input type="date" id="dataNascimento" name="dataNascimento" class="form-control">
+                        </div>
+
+                        <!-- ---------- DOCUMENTO DE IDENTIFICAÇÃO ---------- -->
+                        <!-- col-12 = ocupa a largura toda -->
+                        <div class="col-12">
+                            <label for="documento" class="form-label">Documento de identificação</label>
+                            <!-- type="file" = botão "Escolher ficheiro" -->
+                            <!-- accept = só deixa escolher estes tipos de ficheiro -->
+                            <input type="file" id="documento" name="documento" class="form-control"
+                                accept=".pdf,.jpg,.jpeg,.png">
+                        </div>
+
+                    </div> <!-- fim da row dos dados pessoais -->
+                </fieldset> <!-- fim do FIELDSET 1 -->
+
+                <!-- ============================================================= -->
+                <!-- FIELDSET 2: AULA                                              -->
+                <!-- ✅ REQUISITO: segundo fieldset com o seu legend                -->
+                <!-- ============================================================= -->
+                <fieldset>
+                    <legend>Aula</legend>
+
+                    <!-- ---------- PACOTE (select) ---------- -->
+                    <!-- mb-3 = margem em baixo, para separar do campo seguinte -->
+                    <div class="mb-3">
+                        <label for="pacote" class="form-label">Pacote *</label>
+
+                        <!-- ✅ REQUISITO: select com 3 option + required -->
+                        <!-- select      = lista de escolha (abre ao clicar) -->
+                        <!-- form-select = estilo do Bootstrap para o select (com a setinha) -->
+                        <select id="pacote" name="pacote" class="form-select" required>
+                            <!-- 1.ª option: só um texto de ajuda. value="" (vazio) → com required, o browser não deixa enviar se ficar esta -->
+                            <option value="">Escolhe um pacote…</option>
+                            <!-- value = o que é ENVIADO | o texto entre as tags = o que o utilizador VÊ -->
+                            <option value="iniciacao">Iniciação — 80 €</option>
+                            <option value="intermedio">Intermédio — 130 €</option>
+                            <option value="avancado">Avançado — 190 €</option>
+                        </select>
+                    </div>
+
+                    <!-- ---------- NÍVEL DE NATAÇÃO (radio) ---------- -->
+                    <!-- Este <p> é só o título do grupo. Não é <label> porque não pertence a UM campo, mas aos 3 -->
+                    <p class="form-label mb-1">Nível de natação</p>
+
+                    <div class="mb-3">
+                        <!-- ✅ REQUISITO: 3 radio com o MESMO name -->
+                        <!-- Mesmo name="natacao" nos 3 → o browser só deixa escolher UM -->
+                        <!-- Cada radio tem um id DIFERENTE, e o label aponta para o seu id -->
+                        <!-- form-check        = estrutura do Bootstrap para radio/checkbox -->
+                        <!-- form-check-inline = os 3 ficam na mesma linha -->
+                        <!-- form-check-input  = estilo da bolinha | form-check-label = estilo do texto -->
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="natacaoBasico" name="natacao"
+                                value="basico">
+                            <label class="form-check-label" for="natacaoBasico">Básico</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="natacaoMedio" name="natacao" value="medio">
+                            <label class="form-check-label" for="natacaoMedio">Médio</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="natacaoAvancado" name="natacao"
+                                value="avancado">
+                            <label class="form-check-label" for="natacaoAvancado">Avançado</label>
+                        </div>
+                    </div>
+
+                    <!-- ---------- EXTRAS (checkbox) ---------- -->
+                    <p class="form-label mb-1">Extras</p>
+
+                    <div class="mb-3">
+                        <!-- ✅ REQUISITO: 2 checkbox -->
+                        <!-- Ao contrário do radio, a checkbox deixa escolher NENHUMA, UMA ou AS DUAS -->
+                        <!-- Sem form-check-inline → ficam uma por baixo da outra -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="extraFato" name="extras" value="fato">
+                            <label class="form-check-label" for="extraFato">Aluguer de fato (+15 €)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="extraSeguro" name="extras"
+                                value="seguro">
+                            <label class="form-check-label" for="extraSeguro">Seguro de acidentes (+10 €)</label>
+                        </div>
+                    </div>
+
+                    <!-- ---------- OBSERVAÇÕES (textarea) ---------- -->
+                    <div>
+                        <label for="observacoes" class="form-label">Observações</label>
+                        <!-- ✅ REQUISITO: textarea -->
+                        <!-- textarea = caixa de texto com VÁRIAS linhas | rows="4" = altura inicial de 4 linhas -->
+                        <!-- Atenção: a textarea tem tag de abertura E de fecho (o input não tem) -->
+                        <textarea id="observacoes" name="observacoes" class="form-control" rows="4"
+                            placeholder="Alguma lesão, alergia ou preferência de horário?"></textarea>
+                    </div>
+                </fieldset> <!-- fim do FIELDSET 2 -->
+
+                <!-- ---------- BOTÕES DO FORMULÁRIO ---------- -->
+                <!-- d-flex gap-2 = botões com um pequeno espaço entre eles -->
+                <!-- 📱 RESPONSIVO: -->
+                <!--   flex-column = no telemóvel os botões ficam UM POR BAIXO DO OUTRO e com a largura toda (mais fáceis de tocar com o dedo) -->
+                <!--   flex-sm-row = a partir de ecrãs pequenos (≥576px) voltam a ficar LADO A LADO -->
+                <div class="d-flex flex-column flex-sm-row gap-2">
+
+                    <!-- ✅ REQUISITO: botão submit com classes btn -->
+                    <!-- type="submit" = envia o formulário (antes, o browser verifica os campos required) -->
+                    <!-- btn btn-primary = botão azul do Bootstrap -->
+                    <!-- <i class="bi bi-send"> = ícone de "enviar" do Bootstrap Icons -->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i> Inscrever
+                    </button>
+
+                    <!-- ✅ REQUISITO: botão reset com classes btn -->
+                    <!-- type="reset" = apaga tudo o que foi escrito no formulário -->
+                    <!-- btn-outline-secondary = botão cinzento só com contorno -->
+                    <button type="reset" class="btn btn-outline-secondary">Limpar</button>
+                </div>
+
+            </form> <!-- fim do FORMULÁRIO PRINCIPAL -->
+        </section> <!-- fim da secção INSCRIÇÃO -->
+
+        <!-- ================================================================= -->
+        <!-- 4.3 ASIDE: conteúdo complementar ("à parte" do conteúdo principal) -->
+        <!-- ✅ REQUISITO: aside dentro do main                                 -->
+        <!-- ================================================================= -->
+        <!-- 📱 RESPONSIVO: col-12 col-lg-4 = por baixo do formulário até ao tablet, à direita (4 de 12) no computador -->
+        <aside class="col-12 col-lg-4">
+
+            <!-- A caixa cinzenta fica numa div DENTRO do aside: -->
+            <!-- a coluna (col-...) trata da LARGURA, a caixa trata do ASPETO (fundo, cantos, espaço) -->
+            <!-- bg-light = fundo cinzento-claro | rounded = cantos arredondados -->
+            <!-- p-4 = espaço interior | text-center = tudo centrado -->
+            <!-- 📱 RESPONSIVO: sticky-lg-top = só no computador (lg), a caixa acompanha o scroll ao lado do formulário -->
+            <!--    (a distância ao topo está no estilo.css, para não ficar escondida por baixo do menu) -->
+            <div class="caixa-duvidas bg-light rounded p-4 text-center sticky-lg-top">
+
+            <!-- ✅ REQUISITO: texto curto "Ainda tens dúvidas?" -->
+            <h2 class="fs-4">Ainda tens dúvidas?</h2>
+            <p>Envia-nos a tua pergunta e respondemos em menos de 24 horas.</p>
+
+            <!-- ✅ REQUISITO: botão que abre um modal -->
+            <!-- type="button" = botão "normal" (não envia nenhum formulário) -->
+            <!-- data-bs-toggle="modal"             = ao clicar, ABRE um modal (o JS do Bootstrap trata disto) -->
+            <!-- data-bs-target="#modalInformacoes" = QUAL modal abre: o que tem id="modalInformacoes" (lá em baixo) -->
+            <!-- btn btn-warning = botão amarelo -->
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalInformacoes">
+                <!-- bi-question-circle = ícone de ponto de interrogação -->
+                <i class="bi bi-question-circle"></i> Pedir informações
+            </button>
+            </div> <!-- fim da caixa-duvidas -->
+        </aside>
+
+        </div> <!-- fim da row (formulário + aside) -->
+
+    </main> <!-- fim do MAIN -->
+
+    <!-- ===================================================================== -->
+    <!-- 5. FOOTER: rodapé                                                     -->
+    <!-- ✅ REQUISITO: footer com id="contactos" (destino do link do menu)      -->
+    <!-- ===================================================================== -->
+    <!-- O id está AQUI e em mais lado nenhum: um id só pode existir UMA vez na página -->
+    <!-- py-4 = espaço em cima e em baixo | text-center = centrado -->
+    <!-- A cor de fundo e a cor dos links vêm do estilo.css (regras "footer" e "footer a") -->
+    <footer id="contactos" class="py-4 text-center">
+
+        <!-- ✅ REQUISITO: morada numa tag address -->
+        <!-- <address> = tag própria para dados de contacto -->
+        <address class="mb-2">
+            <!-- ✅ REQUISITO: ícone do Bootstrap Icons (bi-geo-alt-fill = pino de localização) -->
+            <i class="bi bi-geo-alt-fill"></i>
+            Praia de Ribeira d'Ilhas, 2655-000 Ericeira
+        </address>
+
+        <p class="mb-0">
+            <!-- bi-envelope-fill = ícone de envelope -->
+            <i class="bi bi-envelope-fill"></i>
+            <!-- ✅ REQUISITO: link de email com mailto: -->
+            <!-- mailto: = ao clicar, abre o programa de email com o destinatário já preenchido -->
+            <a href="mailto:info@ondaazul.pt">info@ondaazul.pt</a>
+        </p>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- 6. MODAL "PEDIR INFORMAÇÕES"                                          -->
+    <!-- ✅ REQUISITO: modal do Bootstrap com título, form e botões             -->
+    <!-- ===================================================================== -->
+    <!-- O modal está no fim do <body> porque é uma janela que aparece POR CIMA de tudo. -->
+    <!-- Fica escondido até alguém clicar no botão do aside. -->
+    <!-- -->
+    <!-- Estrutura obrigatória do Bootstrap (3 caixas umas dentro das outras): -->
+    <!--   .modal → .modal-dialog → .modal-content → (header, body, footer) -->
+    <!-- -->
+    <!-- modal fade      = janela com animação de aparecer/desaparecer -->
+    <!-- id              = TEM de ser igual ao data-bs-target do botão (sem o #) -->
+    <!-- tabindex="-1"   = permite fechar o modal com a tecla Esc -->
+    <!-- aria-labelledby = diz aos leitores de ecrã que o título do modal é o elemento id="tituloModal" -->
+    <!-- aria-hidden     = enquanto está fechado, os leitores de ecrã ignoram-no -->
+    <div class="modal fade" id="modalInformacoes" tabindex="-1" aria-labelledby="tituloModal" aria-hidden="true">
+
+        <!-- modal-dialog = define a largura e a posição da janela -->
+        <!-- 📱 RESPONSIVO: -->
+        <!--   modal-dialog-centered   = a janela aparece a meio do ecrã (na vertical) -->
+        <!--   modal-fullscreen-sm-down = no telemóvel (abaixo de 576px) a janela ocupa o ECRÃ TODO → mais espaço para escrever -->
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+
+            <!-- modal-content = a "caixa branca" da janela -->
+            <div class="modal-content">
+
+                <!-- ✅ REQUISITO: pequeno form dentro do modal -->
+                <!-- O <form> envolve o header, o body E o footer → assim o botão "Enviar" (no footer) faz parte deste form -->
+                <form action="#" method="post">
+
+                    <!-- ---------- CABEÇALHO DO MODAL ---------- -->
+                    <div class="modal-header">
+                        <!-- ✅ REQUISITO: título do modal -->
+                        <!-- id="tituloModal" = é o que o aria-labelledby (lá em cima) procura -->
+                        <h2 class="modal-title fs-5" id="tituloModal">Pedir informações</h2>
+
+                        <!-- Botão ✕ no canto superior direito -->
+                        <!-- btn-close = desenha o ✕ | data-bs-dismiss="modal" = FECHA o modal -->
+                        <!-- aria-label = texto lido pelos leitores de ecrã (o ✕ não tem texto visível) -->
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+
+                    <!-- ---------- CORPO DO MODAL: os campos ---------- -->
+                    <div class="modal-body">
+                        <!-- ATENÇÃO: os ids aqui são DIFERENTES dos do formulário principal -->
+                        <!-- (infoNome em vez de nome, infoEmail em vez de email) porque não pode haver ids repetidos -->
+
+                        <!-- ✅ REQUISITO: nome -->
+                        <div class="mb-3">
+                            <label for="infoNome" class="form-label">Nome</label>
+                            <input type="text" id="infoNome" name="infoNome" class="form-control"
+                                placeholder="O teu nome" required>
+                        </div>
+
+                        <!-- ✅ REQUISITO: email -->
+                        <div class="mb-3">
+                            <label for="infoEmail" class="form-label">Email</label>
+                            <input type="email" id="infoEmail" name="infoEmail" class="form-control"
+                                placeholder="nome@exemplo.pt" required>
+                        </div>
+
+                        <!-- ✅ REQUISITO: textarea com a pergunta -->
+                        <div>
+                            <label for="infoPergunta" class="form-label">A tua pergunta</label>
+                            <textarea id="infoPergunta" name="infoPergunta" class="form-control" rows="3"
+                                placeholder="Escreve aqui a tua dúvida…" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ---------- RODAPÉ DO MODAL: os botões ---------- -->
+                    <div class="modal-footer">
+                        <!-- ✅ REQUISITO: botão "Fechar" -->
+                        <!-- type="button" + data-bs-dismiss="modal" = só fecha a janela, NÃO envia nada -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+                        <!-- ✅ REQUISITO: botão "Enviar" -->
+                        <!-- type="submit" = envia ESTE form (o do modal), depois de verificar os required -->
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+
+                </form> <!-- fim do form do modal -->
+            </div> <!-- fim do modal-content -->
+        </div> <!-- fim do modal-dialog -->
+    </div> <!-- fim do MODAL -->
+
+    <!-- ===================================================================== -->
+    <!-- 7. JAVASCRIPT DO BOOTSTRAP                                            -->
+    <!-- ✅ REQUISITO: Bootstrap 5.3 por CDN (parte 2 de 2: o JS bundle)        -->
+    <!-- ✅ REQUISITO: sem JavaScript escrito por nós                           -->
+    <!-- ===================================================================== -->
+    <!-- É este ficheiro que faz o modal abrir e fechar (lê os data-bs-toggle e data-bs-dismiss) -->
+    <!-- "bundle" = inclui também o Popper, de que alguns componentes do Bootstrap precisam -->
+    <!-- Fica no FIM do <body>: a página mostra primeiro o conteúdo e só depois carrega o script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

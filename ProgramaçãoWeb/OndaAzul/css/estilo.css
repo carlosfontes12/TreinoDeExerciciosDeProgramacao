@@ -1,0 +1,223 @@
+/* =====================================================================
+   ESTILOS PRÓPRIOS DA ESCOLA DE SURF ONDA AZUL
+   Ficheiro: css/estilo.css
+   Ligado no index.html com: <link rel="stylesheet" href="../css/estilo.css">
+
+   PORQUE É QUE ESTE CSS "GANHA" AO BOOTSTRAP?
+   No <head> do index.html, este ficheiro é carregado DEPOIS do Bootstrap.
+   Quando duas regras com a mesma força se contradizem, ganha a ÚLTIMA.
+
+   ÍNDICE:
+     1. Variáveis de cor
+     2. Fonte dos títulos (Google Fonts)       ✅ REQUISITO
+     3. Cabeçalho (header e <mark>)
+     4. Menu (nav) com :hover                  ✅ REQUISITO
+     5. Pacotes (preço)
+     6. Formulário: fieldset                   ✅ REQUISITO
+     7. Formulário: legend (seletor descendente) ✅ REQUISITO
+     8. Rodapé (footer)
+     9. Responsivo: telemóvel, tablet e computador 📱
+   ===================================================================== */
+
+
+/* =====================================================================
+   1. VARIÁVEIS DE COR
+   =====================================================================
+   :root = o elemento raiz da página (o <html>).
+   As variáveis começam por -- e usam-se com var(--nome).
+   Vantagem: se quisermos mudar o azul, mudamos SÓ AQUI e muda em todo o lado.
+*/
+:root {
+    --azul-escuro: #0b3c5d; /* fundo do header e do footer */
+    --azul-mar: #0b5e8a;    /* fundo do menu, preços e legend */
+    --azul-claro: #e6f4fb;  /* fundo dos fieldset */
+    --areia: #f4e3c1;       /* <mark>, :hover do menu e links do footer */
+}
+
+
+/* =====================================================================
+   2. FONTE DOS TÍTULOS (GOOGLE FONTS)
+   ✅ REQUISITO: uma fonte do Google Fonts aplicada aos títulos
+   =====================================================================
+   A fonte "Montserrat" é DESCARREGADA no <head> do index.html (o <link> do fonts.googleapis.com).
+   Aqui é APLICADA.
+   Seletor com vírgulas = a mesma regra para vários elementos (h1, h2, h3...).
+   sans-serif = fonte de reserva, caso a Montserrat não carregue (sem internet, por exemplo).
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+legend {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700; /* 700 = negrito */
+}
+
+
+/* =====================================================================
+   3. CABEÇALHO
+   =====================================================================
+   Aplica-se ao <header> do index.html.
+*/
+header {
+    background-color: var(--azul-escuro); /* fundo azul-escuro */
+    color: white;                         /* texto branco */
+}
+
+/* Seletor descendente "header mark" = só os <mark> que estão DENTRO do <header>.
+   Por defeito o <mark> tem fundo amarelo. Aqui trocamos pela cor "areia". */
+header mark {
+    background-color: var(--areia);
+    color: var(--azul-escuro);
+    border-radius: 4px; /* cantos ligeiramente arredondados */
+    padding: 0 4px;     /* 0 em cima/baixo, 4px à esquerda/direita */
+}
+
+
+/* =====================================================================
+   4. MENU DE NAVEGAÇÃO
+   ✅ REQUISITO: links do nav estilizados no CSS externo com :hover
+   =====================================================================
+   Aplica-se ao <nav> e aos 3 links <a> lá dentro.
+*/
+nav {
+    background-color: var(--azul-mar); /* barra azul por baixo do header */
+}
+
+/* "nav a" = os links <a> que estão DENTRO do <nav> (os links do footer não são afetados) */
+nav a {
+    color: white;
+    text-decoration: none;   /* tira o sublinhado */
+    font-weight: 600;        /* semi-negrito */
+    padding: 8px 12px;       /* espaço à volta do texto → a área clicável fica maior */
+    border-radius: 6px;      /* cantos arredondados (nota-se no :hover) */
+    transition: background-color 0.2s; /* a cor muda suavemente em 0,2 segundos */
+}
+
+/* :hover = estilo aplicado APENAS enquanto o rato está por cima do link */
+nav a:hover {
+    background-color: var(--areia); /* fundo cor de areia */
+    color: var(--azul-escuro);      /* texto azul-escuro */
+}
+
+
+/* =====================================================================
+   5. PACOTES
+   =====================================================================
+   "#pacotes .preco" = elementos com class="preco" DENTRO do elemento com id="pacotes".
+   # = id  |  . = classe
+   Aplica-se aos 3 <p class="preco"> (80 €, 130 €, 190 €).
+*/
+#pacotes .preco {
+    font-size: 1.5rem;      /* 1,5 vezes o tamanho normal da letra */
+    font-weight: 700;       /* negrito */
+    color: var(--azul-mar); /* azul */
+}
+
+
+/* =====================================================================
+   6. FORMULÁRIO: FIELDSET
+   ✅ REQUISITO: cor de fundo própria nos fieldset, com border-radius e padding
+   =====================================================================
+   Aplica-se aos 2 <fieldset> do formulário de inscrição ("Dados pessoais" e "Aula").
+*/
+fieldset {
+    background-color: var(--azul-claro); /* ✅ cor de fundo própria */
+    border-radius: 12px;                 /* ✅ cantos arredondados */
+    padding: 20px;                       /* ✅ espaço interior (os campos não encostam à borda) */
+    margin-bottom: 24px;                 /* espaço entre os dois fieldset */
+}
+
+
+/* =====================================================================
+   7. FORMULÁRIO: LEGEND
+   ✅ REQUISITO: seletor descendente com text-transform e letter-spacing
+   =====================================================================
+   "#inscricao legend" é um SELETOR DESCENDENTE:
+     → aplica-se aos <legend> que estão DENTRO do elemento com id="inscricao".
+     → o espaço entre "#inscricao" e "legend" significa "dentro de".
+   Aplica-se a "Dados pessoais" e "Aula".
+*/
+#inscricao legend {
+    text-transform: uppercase; /* ✅ mostra em MAIÚSCULAS (no HTML continua escrito em minúsculas) */
+    letter-spacing: 2px;       /* ✅ mais espaço entre as letras */
+    font-size: 1.1rem;         /* um pouco maior do que o texto normal */
+    color: var(--azul-mar);    /* azul */
+}
+
+
+/* =====================================================================
+   8. RODAPÉ
+   =====================================================================
+   Aplica-se ao <footer id="contactos">.
+*/
+footer {
+    background-color: var(--azul-escuro); /* mesmo azul do header → a página "fecha" com a mesma cor */
+    color: white;
+}
+
+/* "footer a" = só os links dentro do footer (o link do email).
+   Sem esta regra o link ficava azul do Bootstrap, quase invisível no fundo escuro. */
+footer a {
+    color: var(--areia);
+}
+
+
+/* =====================================================================
+   9. 📱 RESPONSIVO: TELEMÓVEL, TABLET E COMPUTADOR
+   =====================================================================
+   A maior parte do trabalho responsivo é feita pelas classes do Bootstrap no HTML
+   (col-12, col-md-4, col-lg-8, flex-sm-row, modal-fullscreen-sm-down...).
+   Aqui ficam só os ajustes que o Bootstrap não faz sozinho.
+
+   Larguras de referência do Bootstrap (breakpoints):
+     sm ≥ 576px  → telemóveis grandes
+     md ≥ 768px  → tablets
+     lg ≥ 992px  → computadores
+*/
+
+/* ---------- 9.1 Links do menu não escondem os títulos ----------
+   Como o menu está "colado" no topo (sticky-top), ao carregar num link
+   o título da secção ficava escondido POR BAIXO do menu.
+   scroll-margin-top = deixa 70px de folga em cima quando o browser salta para o elemento. */
+#pacotes,
+#inscricao,
+#contactos {
+    scroll-margin-top: 70px;
+}
+
+/* ---------- 9.2 Caixa "Ainda tens dúvidas?" no computador ----------
+   A classe sticky-lg-top do Bootstrap cola a caixa a 0px do topo.
+   Aqui damos 80px de distância, para ficar por baixo do menu e não atrás dele. */
+.caixa-duvidas {
+    top: 80px;
+}
+
+/* ---------- 9.3 Radio e checkbox mais visíveis ----------
+   Em cima do fundo azul-claro dos fieldset, a borda cinzenta do Bootstrap quase não se via. */
+.form-check-input {
+    border-color: var(--azul-mar);
+}
+
+/* ---------- 9.4 Ajustes só para TELEMÓVEL ----------
+   @media (max-width: 575.98px) = as regras lá dentro SÓ se aplicam
+   quando o ecrã tem MENOS de 576px de largura (telemóveis).
+   Em tablets e computadores estas regras são ignoradas. */
+@media (max-width: 575.98px) {
+
+    /* Título mais pequeno: no telemóvel o h1 ocupava demasiado espaço */
+    header h1 {
+        font-size: 2rem;
+    }
+
+    /* Menos espaço interior nos fieldset → os campos ficam mais largos num ecrã estreito */
+    fieldset {
+        padding: 14px;
+    }
+
+    /* Legend com menos espaço entre letras, para "DADOS PESSOAIS" caber bem */
+    #inscricao legend {
+        letter-spacing: 1px;
+    }
+}
